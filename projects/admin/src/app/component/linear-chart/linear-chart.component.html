@@ -1,0 +1,33 @@
+<div class="container" #containerRef>
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label i18n>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" #dateRangeStart>
+      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="onDateChange(dateRangeStart, dateRangeEnd)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <ngx-charts-line-chart
+    [view]="[containerRef.offsetWidth, 400]"
+    [scheme]="'vivid'"
+    [results]="data"
+    [legend]="legend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisTicks]="xAxisTicks"
+    [xAxisTickFormatting]="formatDate"
+    [timeline]="timeline">
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tooltip-template">
+        <span class="title">{{model.name | date}}</span>
+        <span>{{model.value}}
+          <span>{{model.series}}</span>
+        </span>
+      </div>
+    </ng-template>
+  </ngx-charts-line-chart>
+</div>

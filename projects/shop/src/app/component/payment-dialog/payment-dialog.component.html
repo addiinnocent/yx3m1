@@ -1,0 +1,22 @@
+<div mat-dialog-title>
+  <h1>Kasse</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content class="container">
+
+  <ng-container *ngIf="payments?.stripe">
+    <button mat-raised-button color="accent" class="checkout-button" (click)="checkout()">
+      GO TO CHECKOUT
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="payments?.paypal">
+    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+  </ng-container>
+
+</div>

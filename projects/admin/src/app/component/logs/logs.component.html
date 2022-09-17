@@ -1,0 +1,26 @@
+<div class="container">
+  <ng-container *ngIf="logs | async; let logs">
+    <ng-container *ngIf="logs.length > 0; else elseBlock">
+      <ng-container *ngFor="let log of logs">
+        <mat-card>
+          <div class="mat-card-header">
+            <mat-card-title>{{ log.title }}</mat-card-title>
+            <span>{{ log.createdAt | date }}</span>
+          </div>
+          <mat-card-content>
+            <p>{{ log.text }}</p>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button color="accent" (click)="dismissLog(log)" i18n>Dismiss</button>
+            <button *ngIf="log.data" mat-button color="primary" (click)="openDialog(log)" i18n>Show</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+    <ng-template #elseBlock>
+      <p i18n>No data available</p>
+    </ng-template>
+  </ng-container>
+
+
+<div>

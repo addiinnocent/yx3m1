@@ -1,0 +1,19 @@
+.container {
+  margin: 16px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.shoppingcart-small {
+  min-width: 350px;
+}
+
+.adress-card {
+  max-width: 500px;
+}
+
+.full-width {
+  width: 100%;
+}

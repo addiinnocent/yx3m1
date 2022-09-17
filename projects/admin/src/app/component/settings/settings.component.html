@@ -1,0 +1,171 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="settings-grid">
+
+      <mat-card>
+        <form formGroupName="admin">
+          <mat-card-title i18n>Admin Panel</mat-card-title>
+          <mat-card-subtitle i18n>Edit admin panel settings</mat-card-subtitle>
+          <mat-card-content>
+
+            <mat-slide-toggle color="primary" formControlName="maintenance">
+              <span i18n>Maintenance Mode</span>
+            </mat-slide-toggle>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>Name</mat-label>
+              <input matInput formControlName="admin_user">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>Password</mat-label>
+              <input matInput formControlName="admin_pass">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>User-Agent</mat-label>
+              <input matInput formControlName="useragent_protect">
+            </mat-form-field>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+      <mat-card>
+        <form formGroupName="mail">
+          <mat-card-title i18n>Email</mat-card-title>
+          <mat-card-subtitle i18n>Email credentials</mat-card-subtitle>
+          <mat-card-content>
+
+            <mat-slide-toggle color="primary" formControlName="sendmail">
+              <span i18n>Sendmail</span>
+            </mat-slide-toggle>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>From</mat-label>
+              <input matInput formControlName="mail_from">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>Host</mat-label>
+              <input matInput formControlName="mail_host">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>Port</mat-label>
+              <input matInput formControlName="mail_port">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>User</mat-label>
+              <input matInput formControlName="mail_user">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label i18n>Password</mat-label>
+              <input matInput formControlName="mail_pass">
+            </mat-form-field>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+
+      <mat-card>
+        <form formGroupName="stripe">
+          <mat-card-title i18n>Stripe</mat-card-title>
+          <mat-card-subtitle i18n>Stripe API keys</mat-card-subtitle>
+          <mat-card-content>
+
+            <mat-slide-toggle color="primary" formControlName="stripe_active">
+              <span ii8n>Enabled</span>
+            </mat-slide-toggle>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label ii8n>Stripe Publickey</mat-label>
+              <input matInput formControlName="stripe_publickey">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label ii8n>Stripe Secretkey</mat-label>
+              <input matInput formControlName="stripe_secretkey">
+            </mat-form-field>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+      <mat-card>
+        <form formGroupName="paypal">
+          <mat-card-title ii8n>Paypal</mat-card-title>
+          <mat-card-subtitle ii8n>Paypal API keys</mat-card-subtitle>
+          <mat-card-content>
+
+            <mat-slide-toggle color="primary" formControlName="paypal_active">
+              <span ii8n>Enabled</span>
+            </mat-slide-toggle>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label ii8n>Paypal Client</mat-label>
+              <input matInput formControlName="paypal_client">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label ii8n>Paypal Secret</mat-label>
+              <input matInput formControlName="paypal_secret">
+            </mat-form-field>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+      <mat-card>
+        <form formGroupName="schedules">
+          <mat-card-title ii8n>Schedules</mat-card-title>
+          <mat-card-subtitle ii8n>Set up schedules and timers</mat-card-subtitle>
+          <mat-card-content class="settings-schedules">
+            <mat-slide-toggle color="primary" formControlName="schedule_daily">
+              <span ii8n>Tagesbericht</span>
+            </mat-slide-toggle>
+            <mat-slide-toggle color="primary" formControlName="schedule_weekly">
+              <span ii8n>Wochenbericht</span>
+            </mat-slide-toggle>
+            <mat-slide-toggle color="primary" formControlName="schedule_monthly">
+              <span ii8n>Monatsbericht</span>
+            </mat-slide-toggle>
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+      <mat-card>
+        <form formGroupName="countries">
+          <mat-card-title ii8n>Availability</mat-card-title>
+          <mat-card-subtitle ii8n>Add/Remove available countries</mat-card-subtitle>
+          <mat-card-content>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-chip-list #chipList aria-label="Country selection">
+                <mat-chip *ngFor="let country of this.form.value.countries" (removed)="removeCountry(country)">
+                  {{country | titlecase}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input placeholder="Add a new country"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addCountry($event)">
+              </mat-chip-list>
+            </mat-form-field>
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+      <div></div>
+      <div class="settings-button">
+        <button mat-flat-button color="primary" type="submit" ii8n>Save</button>
+      </div>
+
+    </div>
+  </form>
+</div>

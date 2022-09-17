@@ -1,0 +1,40 @@
+<mat-toolbar class="top-flex">
+  <mat-form-field appearance="standard" class="filter-input full-width">
+    <mat-label i18n>Search</mat-label>
+    <input matInput #input (keyup)="applyFilter($event)">
+  </mat-form-field>
+  <button mat-fab color="primary">
+    <mat-icon>search</mat-icon>
+  </button>
+  <input type="file" name="image" accept="image/*" class="file-upload"  #image1 (change)="addImage(image1)">
+  <button mat-fab (click)="image1.click()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <div class="flex-gallery">
+
+    <ng-container *ngFor="let image of images | async">
+      <mat-card class="image-wrapper">
+        <div class="image-actions">
+          <input matInput class="image-name" (focusout)="applyName(image, $event)" [value]="image.name">
+          <input type="file" accept="image/*" class="file-upload"  #image2 (change)="changeImage(image, image2)">
+          <button mat-mini-fab class="upload-btn" (click)="image2.click()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="deleteImage(image)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <img class="image" [src]="image.src">
+      </mat-card>
+    </ng-container>
+
+  </div>
+  <mat-paginator #paginator class="image-paginator mat-elevation-z6"
+    [length]="dataSource.length"
+    [pageSizeOptions]="[10, 20, 50]"
+    aria-label="Select page">
+  </mat-paginator>
+</div>

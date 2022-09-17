@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>Deine Bestellung war erfolgreich!</h1>
+
+  <div class="bill-wrapper">
+    <ng-container *ngIf="order | async; let order">
+      <app-adress-small [customer]="order.customer"></app-adress-small>
+      <app-shoppingcart-small [shoppingcart]="order"></app-shoppingcart-small>
+      <mat-card>
+        <mat-card-title>Bezahlung</mat-card-title>
+        <mat-card-content class="payment-grid">
+          <span>Zahlung: </span><span>{{order.payment.type | titlecase}}</span>
+          <span>Status: </span><span>{{order.payment.status | titlecase}}</span>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+
+  <div class="bill-buttons">
+    <button mat-raised-button color="primary" [routerLink]="['/']">Zur Startseite</button>
+  </div>
+
+</div>

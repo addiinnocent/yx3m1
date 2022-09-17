@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+const cron = require('node-cron');
+
+const { reportEmail } = require('./email');
+const { Emails } = require('../database/email');
+const { Categories } = require('../database/category');
+const {
+  Shoppingcarts,
+  ShoppingcartItems
+} = require('../database/shoppingcart');
+const config = require('../database/config').config;
+
+
+var daily = cron.schedule('0 0 * * *', async () => {//daily 0 0 * * *   */60 * * * * *
+  try {
+    let { schedules } = await config();
+    if (!schedules.schedule_daily) throw('schedule inactive');
+    let today = new Date();
+    let end = today.setHours(0,0,0,0);
+    let start = today.setDate(today.getDate()-1);
+
+    let report = await createReport(start, end);
+    let status = await reportEmail(report, 'Tagesbericht');
+
+    console.log('Tagesbericht gesendet');
+  } catch(e) {
+    console.error(e);
+  }
+});
+
+var weekly = cron.schedule('0 0 * * 0', async () => {
+  try {
+    let { schedules } = await config();
+    if (!schedules.schedule_weekly) throw('schedule inactive');
+    let today = new Date();
+    let end = today.setHours(0,0,0,0);
+    let start = today.setDate(today.getDate()-7);
+
+    let report = await createReport(start, end);
+    let status = await reportEmail(report, 'Wochenbericht');
+
+    console.log('Wochenbericht gesendet');
+  } catch(e) {
+    console.error(e);
+  }
+});
+
+var monthly = cron.schedule('0 0 1 * *', async () => {
+  try {
+    let { schedules } = await config();
+    if (!schedules.schedule_monthly) throw('schedule inactive');
+    let today = new Date();
+    let end = today.setHours(0,0,0,0);
+    let start = today.setMonth(today.getMonth()-1);
+
+    let report = await createReport(start, end);
+    let status = await reportEmail(report, 'Monatsbericht');
+
+    console.log('Monatsbericht gesendet');
+  } catch(e) {
+    console.error(e);
+  }
+});
+
+var createReport = async (start, end) => {
+  let total = 0;
+  let items = 0;
+  let categories = await Categories.find({})
+  .select('name')
+  .lean()
+
+  for (let category of categories) {
+    category.items = await ShoppingcartItems.find({
+      category: category._id,
+      sold: true,
+      updatedAt: {
+        $gte: new Date(start),
+        $lte: new Date(end)
+      }
+    }).populate('item')
+    category.total = category.items.reduce((a,b) => a+(b.quantity*b.item.price), 0);
+    items += category.items.length;
+    total += category.total;
+  }
+
+  return {
+    start: start,
+    end: end,
+    total: total,
+    items: items,
+    categories: categories,
+  }
+}
+
+module.exports = { daily, weekly, monthly }

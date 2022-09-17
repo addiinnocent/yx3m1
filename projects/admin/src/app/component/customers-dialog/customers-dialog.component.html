@@ -1,0 +1,70 @@
+<div mat-dialog-title>
+  <h1 i18n>Customer</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content>
+
+  <!--Bar chart-->
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Id</mat-label>
+      <input matInput formControlName="_id">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Firstname</mat-label>
+      <input matInput formControlName="firstname">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Lastname</mat-label>
+      <input matInput formControlName="lastname">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Street</mat-label>
+      <input matInput formControlName="street">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>ZIP</mat-label>
+      <input matInput formControlName="zip">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Town</mat-label>
+      <input matInput formControlName="town">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Country</mat-label>
+      <input matInput formControlName="country">
+    </mat-form-field>
+
+    <mat-slide-toggle class="full-width" formControlName="newsletter" color="primary">
+      <span i18n>Newsletter</span>
+    </mat-slide-toggle>
+
+    <mat-slide-toggle class="full-width" formControlName="validated" color="primary">
+      <span i18n>Validated</span>
+    </mat-slide-toggle>
+
+    <mat-dialog-actions align="end">
+      <a type="submit" [mat-dialog-close]="true" mat-button (click)="openOrders()" i18n>Show Orders</a>
+      <button type="submit" color="primary" mat-button i18n>Save</button>
+    </mat-dialog-actions>
+
+  </form>
+</div>

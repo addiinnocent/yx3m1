@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-title>Deine Bestellung</mat-card-title>
+  <mat-card-content>
+    <div class="shoppingcart-row" *ngFor="let item of shoppingcart?.items">
+      <span>{{item.quantity}}x</span>
+      <span>{{item.item.name}}</span>
+      <span>{{item.quantity*item.item.price | currency}}</span>
+    </div>
+    <hr>
+
+    <ng-container *ngIf="shoppingcart?.shipping">
+      <div class="shoppingcart-row">
+        <span></span>
+        <span>Versand:</span>
+        <span>{{shoppingcart?.shipping.price | currency}}</span>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="shoppingcart?.coupon">
+      <ng-container *ngIf="shoppingcart?.coupon.type == 'discount'">
+        <div class="shoppingcart-row">
+          <span></span>
+          <span>Coupon:</span>
+          <span>- {{shoppingcart?.coupon.value | currency}}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="shoppingcart?.coupon.type == 'percent'">
+        <div class="shoppingcart-row">
+          <span></span>
+          <span>Coupon:</span>
+          <span>- {{shoppingcart?.coupon.value}} %</span>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="shoppingcart-row">
+      <span></span>
+      <span>Gesamt:</span>
+      <span>{{shoppingcart?.total | currency}}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

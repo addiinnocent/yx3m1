@@ -1,0 +1,81 @@
+<div class="container">
+  <h1 class="mat-h1" i18n>Overview</h1>
+  <div class="dashboard-grid">
+
+    <mat-card class="dashboard-card tall logs">
+      <mat-card-header>
+        <mat-card-title i18n>Activity Feed
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu1" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu1="matMenu" xPosition="before">
+            <mat-selection-list #logFilter>
+              <mat-list-option color="primary" *ngFor="let filter of typesOfLogs" (click)="$event.stopPropagation()" [value]="filter" selected>
+                {{filter | titlecase}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <app-logs [filter]="logFilter"></app-logs>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card small">
+      <mat-card-header>
+        <mat-card-title i18n>Shop Storage
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu2" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu2="matMenu" xPosition="before">
+            <mat-selection-list>
+              <mat-list-option
+              *ngFor="let category of categories"
+              color="primary"
+              [selected]="category.selected"
+              (click)="selectCategory($event, category)">
+                {{category.name}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <app-pie-chart [dataSource]="items">
+        </app-pie-chart>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card wide">
+      <mat-card-header>
+        <mat-card-title i18n>Sales by Item
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <app-advanced-pie-chart [dataSource]="sales"></app-advanced-pie-chart>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card wide">
+      <mat-card-header>
+        <mat-card-title i18n>Payments Distribution
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <app-horizontal-bar-chart [dataSource]="payments"></app-horizontal-bar-chart>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card wide">
+      <mat-card-header>
+        <mat-card-title i18n>Unique Site Visitors
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <app-linear-chart [dataSource]="customers"></app-linear-chart>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

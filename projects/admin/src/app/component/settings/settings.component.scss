@@ -1,0 +1,33 @@
+.container {
+  margin: 16px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-slide-toggle {
+  margin: 8px 0;
+  display: block;
+  font-weight: 500;
+}
+
+.settings-button {
+  text-align: right;
+  margin-bottom: 20px;
+  width: 100%;
+
+}
+
+@media screen and (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}

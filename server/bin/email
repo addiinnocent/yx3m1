@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+
+const nodemailer = require('nodemailer');
+const handlebars = require('handlebars');
+const dotenv = require('dotenv').config();
+const path = require('path');
+const { promises: fs } = require('fs');
+
+const config = require('../database/config').config;
+const { URL } = process.env;
+const options = {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute:'2-digit'
+};
+
+handlebars.registerHelper('dateFormat', (timestamp) => {
+  return new Date(timestamp).toLocaleDateString('de-DE', options)+' Uhr';
+});
+
+var smtpTransport = (mail) => {
+  return nodemailer.createTransport({
+    host: mail.mail_host,
+    port: mail.mail_port,
+    secure: false,
+    auth: {
+      user: mail.mail_user,
+      pass: mail.mail_pass,
+    }
+  });
+}
+
+var newsletterEmail = (title, text, to) => {
+	return new Promise(async (resolve, reject) => {
+    let { mail } = await config();
+		let filepath = path.join(__dirname, '..', 'emails', 'newsletter.html');
+  	let file = await fs.readFile(filepath, 'utf8');
+    let template = await handlebars.compile(file);
+    let email = {
+      from: mail.mail_from,
+      to: to,
+      subject: title,
+      html: template({
+        url: URL,
+        title: title,
+        validation: text
+      })
+    }
+    if (mail.sendmail == true) {
+      let transporter = smtpTransport(mail);
+			let status = await transporter.sendMail(email)
+
+			resolve(status);
+		} else reject({
+      error:'Sendmail is turned off'
+    });
+	})
+}
+
+var orderEmail = async (Users, msg) => {
+
+}
+
+var validationEmail = async() => {
+
+}
+
+var reportEmail = async(report, title) => {
+  return new Promise(async (resolve, reject) => {
+    let { mail } = await config();
+		let filepath = path.join(__dirname, '..', 'emails', 'report.html');
+  	let file = await fs.readFile(filepath, 'utf8');
+    let template = await handlebars.compile(file);
+    let email = {
+      from: mail.mail_from,
+      to: 'yannik@yx3m1.com', //mail.private
+      subject: title,
+      html: template({
+        url: URL,
+        title: title,
+        ...report
+      })
+    }
+    if (mail.sendmail == true) {
+      let transporter = smtpTransport(mail);
+			let status = await transporter.sendMail(email);
+
+			resolve(status);
+		} else reject({
+      error:'Sendmail is turned off'
+    });
+	})
+}
+
+module.exports = {
+	newsletterEmail,
+	orderEmail,
+	validationEmail,
+  reportEmail,
+};

@@ -1,0 +1,17 @@
+.mat-dialog-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-dialog-title > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-slide-toggle {
+  margin-bottom: 10px;
+}

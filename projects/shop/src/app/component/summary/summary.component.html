@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Zusammenfassung</h1>
+
+  <div class="summary-wrapper">
+    <app-adress-small [customer]="customer | async"></app-adress-small>
+    <app-shoppingcart-small [shoppingcart]="shoppingcart | async"></app-shoppingcart-small>
+  </div>
+
+  <div class="summary-buttons">
+    <button mat-button [routerLink]="['/adress']">Adresse ändern</button>
+    <button mat-raised-button color="primary" (click)="openDialog()">Bezahlen</button>
+  </div>
+
+</div>

@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <title>{{title}}</title>
+  <style type='text/css'>
+    body {
+      margin: 0;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background: #fff;
+      user-select: none;
+      max-width: 700px;
+      margin: auto;
+      border: 1px solid #607d8b;
+      border-radius: 4px;
+    }
+    img {
+      width: 100%;
+    }
+    .container {
+      padding: 16px;
+    }
+    .toolbar {
+      width: 100%;
+      height: 70px;
+      background: #607d8b;
+    }
+    .logo {
+      width: 100px;
+      padding: 16px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <div class="logo">
+      <img src="{{url}}/logo/logo_light.png">
+    </div>
+  </div>
+  <div class="container">
+    <h2>{{title}}</h2>
+    <span>von {{{dateFormat start}}}</span>
+    <span>bis {{{dateFormat end}}}</span>
+    <br><br>
+    <table>
+      <tr>
+        <th>Kategorie</th>
+        <th>Verkaufte Artikel</th>
+        <th>Umsatz</th>
+      </tr>
+      {{#each categories}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.items.length}}</td>
+        <td>{{this.total}} €</td>
+      </tr>
+      {{/each}}
+      <tr>
+        <td><b>All</b></td>
+        <td><b>{{items}}</b></td>
+        <td><b>{{total}} €</b></td>
+      </tr>
+    </table>
+
+  </div>
+</body>
+
+</html>

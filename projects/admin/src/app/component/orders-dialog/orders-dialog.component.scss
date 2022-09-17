@@ -1,0 +1,35 @@
+.mat-dialog-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-dialog-title > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.mat-input-element:disabled {
+  color: #000;
+}
+
+.orders-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

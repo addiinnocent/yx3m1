@@ -1,0 +1,77 @@
+.container {
+  padding: 16px;
+}
+
+.top-flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: transparent;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.top-flex > * {
+  margin-top: 16px;
+}
+
+.filter-input {
+  max-width: 400px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+
+.flex-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.image-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.image-wrapper:hover > .image-actions {
+  visibility: visible;
+}
+
+.image-actions {
+  visibility: hidden;
+  grid-row: 1;
+  grid-column: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin: 4px;
+  z-index: 9;
+}
+
+.image-name {
+  height: 30px;
+  padding: 5px;
+  margin: 2px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.file-upload {
+  display: none;
+}
+
+.image {
+  grid-row: 1;
+  grid-column: 1;
+  max-width: 300px;
+}
+
+.image-paginator {
+  width: 100%;
+  margin-top: 16px;
+}

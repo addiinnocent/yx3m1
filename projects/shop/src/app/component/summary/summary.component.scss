@@ -1,0 +1,23 @@
+.container {
+  margin: 16px;
+}
+
+.summary-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 8px;
+}
+
+.summary-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .summary-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

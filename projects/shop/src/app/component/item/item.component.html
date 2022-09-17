@@ -1,0 +1,38 @@
+<mat-toolbar class="top-flex">
+  <mat-form-field appearance="standard" class="filter-input full-width">
+    <mat-label>Suche</mat-label>
+    <input matInput #input (keyup)="applyFilter($event)">
+  </mat-form-field>
+  <button mat-fab color="primary">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <div class="flex-gallery">
+
+    <ng-container *ngFor="let item of items | async">
+      <mat-card class="item-card">
+        <mat-card-title>{{item.name}}</mat-card-title>
+        <img *ngIf="item.images.length > 0" mat-card-image [src]="item.images[0].src">
+        <mat-card-content>
+          <p>{{item.description}}</p>
+          <p>{{item.price | currency}}
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="toShoppingcart(item)">
+            <mat-icon>shopping_cart</mat-icon>
+            Zum Warenkorb hinzufügen
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+
+  </div>
+  <mat-paginator #paginator class="item-paginator"
+    [length]="dataSource.length"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page">
+  </mat-paginator>
+</div>

@@ -1,0 +1,154 @@
+<div mat-dialog-title>
+  <h1 i18n>Order</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content>
+
+  <!--Bar chart-->
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="orders-slider">
+      <mat-slide-toggle formControlName="finished" color="primary">
+        <span i18n>Finished</span>
+      </mat-slide-toggle>
+
+      <mat-slide-toggle formControlName="paid" color="primary">
+        <span i18n>Paid</span>
+      </mat-slide-toggle>
+    </div>
+
+    <h2 i18n>Items</h2>
+    <div class="half-width">
+      <ng-container *ngFor="let item of items">
+        <div class="order-items">
+          <span>{{item.quantity}}x</span>
+          <span>{{item.name}}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Id</mat-label>
+      <input matInput formControlName="_id">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Total</mat-label>
+      <span class="prefix" matPrefix>€</span>
+      <input matInput formControlName="total">
+    </mat-form-field>
+
+    <h2 i18n>Customer</h2>
+    <div formGroupName="customer" class="half-width">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Firstname</mat-label>
+        <input matInput formControlName="firstname">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Lastname</mat-label>
+        <input matInput formControlName="lastname">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Street</mat-label>
+        <input matInput formControlName="street">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Town</mat-label>
+        <input matInput formControlName="town">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Country</mat-label>
+        <input matInput formControlName="country">
+      </mat-form-field>
+      <a mat-stroked-button (click)="openCustomerDialog(data.customer)" i18n>Show Customer</a>
+    </div>
+
+    <h2 i18n>Payment</h2>
+    <div formGroupName="payment" class="half-width">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Id</mat-label>
+        <input matInput formControlName="_id">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Status</mat-label>
+        <input matInput formControlName="status">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Type</mat-label>
+        <input matInput formControlName="type">
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label i18n>Amount</mat-label>
+        <span class="prefix" matPrefix>€</span>
+        <input matInput formControlName="amount">
+      </mat-form-field>
+      <a mat-stroked-button i18n>Show Payment</a>
+    </div>
+
+    <ng-container *ngIf="data.shipping">
+      <h2 i18n>Shipping</h2>
+      <div formGroupName="shipping" class="half-width">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Id</mat-label>
+          <input matInput formControlName="_id">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Price</mat-label>
+          <span class="prefix" matPrefix i18n>$</span>
+          <input matInput formControlName="price">
+        </mat-form-field>
+        <a mat-stroked-button (click)="openShippingDialog(data.shipping)" i18n>Show Shipping</a>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="data.coupon">
+      <h2 i18n>Coupon</h2>
+      <div formGroupName="coupon" class="half-width">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Id</mat-label>
+          <input matInput formControlName="_id">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Code</mat-label>
+          <input matInput formControlName="code">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Link</mat-label>
+          <input matInput formControlName="link">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Type</mat-label>
+          <input matInput formControlName="type">
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label i18n>Value</mat-label>
+          <input matInput formControlName="value">
+        </mat-form-field>
+      </div>
+      <a mat-button i18n>Show Coupon</a>
+    </ng-container>
+
+    <mat-dialog-actions align="end">
+      <button type="submit" color="primary" mat-button i18n>Save</button>
+    </mat-dialog-actions>
+
+  </form>
+</div>

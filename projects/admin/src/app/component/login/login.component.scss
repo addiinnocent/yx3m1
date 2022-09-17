@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+$primary: mat.define-palette(mat.$blue-grey-palette);
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: mat.get-color-from-palette($primary);
+}
+
+.logo {
+  width: 150px;
+}
+
+.mat-card {
+  padding: 50px;
+}
+
+.full-width {
+  width: 100%;
+}

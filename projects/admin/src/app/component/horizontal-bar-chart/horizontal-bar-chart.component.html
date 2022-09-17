@@ -1,0 +1,24 @@
+<div class="container" #containerRef>
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label i18n>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" #dateRangeStart>
+      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="onDateChange(dateRangeStart, dateRangeEnd)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <ngx-charts-bar-horizontal
+    [view]="[containerRef.offsetWidth, 200]"
+    [scheme]="'vivid'"
+    [results]="data"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [yAxisLabel]="yAxisLabel">
+  </ngx-charts-bar-horizontal>
+</div>

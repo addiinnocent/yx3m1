@@ -1,0 +1,12 @@
+<div class="container" #containerRef>
+  <ngx-charts-pie-chart
+    [view]="[containerRef.offsetWidth, 400]"
+    [scheme]="'vivid'"
+    [results]="data"
+    [gradient]="gradient"
+    [legend]="showLegend"
+    [legendPosition]="legendPosition"
+    [labels]="showLabels"
+    [doughnut]="isDoughnut">
+  </ngx-charts-pie-chart>
+</div>

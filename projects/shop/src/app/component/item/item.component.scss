@@ -1,0 +1,51 @@
+.container {
+  padding: 16px;
+}
+
+.top-flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: transparent;
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.top-flex > * {
+  margin-top: 16px;
+}
+
+.filter-input {
+  max-width: 400px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.flex-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.item-card {
+  max-width: 300px;
+}
+
+.item-card .mat-icon {
+  font-size: 20px;
+}
+
+.item-paginator {
+  width: 100%;
+  margin-top: 16px;
+}
+
+@media screen and (max-width:720px) {
+  .item-card {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-title>Lieferadresse</mat-card-title>
+  <mat-card-content class="mat-card-content">
+
+    <ng-container *ngIf="customer">
+      <span>{{customer.firstname}} {{customer.lastname}}</span>
+      <span>{{customer.street}}</span>
+      <span>{{customer.zip}} {{customer.town}}</span>
+      <span>{{customer.country}}</span>
+    </ng-container>
+
+  </mat-card-content>
+</mat-card>

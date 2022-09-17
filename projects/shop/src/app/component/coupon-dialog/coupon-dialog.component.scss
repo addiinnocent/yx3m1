@@ -1,0 +1,23 @@
+.container {
+  width: 400px;
+}
+
+.mat-dialog-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-dialog-title > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.coupon-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -1,0 +1,25 @@
+.top-flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: transparent;
+}
+
+.top-flex > * {
+  margin-top: 16px;
+}
+
+.filter-input {
+  max-width: 400px;
+}
+
+.full-width, .full-width-table {
+  width: 100%;
+}
+
+tr:hover {
+  background: rgba(155, 155, 155, 0.1);
+  cursor: pointer;
+}

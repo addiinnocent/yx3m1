@@ -1,0 +1,61 @@
+<div mat-dialog-title>
+  <h1 i18n>Coupon</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content>
+
+  <!--Bar chart-->
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Id</mat-label>
+      <input matInput formControlName="_id">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Link</mat-label>
+      <input matInput formControlName="link">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Code</mat-label>
+      <input matInput formControlName="code">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="discount" i18n>Discount</mat-option>
+        <mat-option value="percent" i18n>Percent</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label i18n>Value</mat-label>
+      <span *ngIf="form.value.type == 'discount'" matPrefix>€</span>
+      <span *ngIf="form.value.type == 'percent'" matPrefix>%</span>
+      <input matInput formControlName="value" type="number">
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="multiuse" color="primary">
+      <span i18n>Multiple use</span>
+    </mat-slide-toggle>
+
+    <mat-dialog-actions align="end">
+      <button mat-button [mat-dialog-close]="true" (click)="deleteCoupon()" i18n>Delete</button>
+      <button type="submit" color="primary" mat-button i18n>Save</button>
+    </mat-dialog-actions>
+
+  </form>
+</div>

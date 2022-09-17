@@ -1,0 +1,21 @@
+.container {
+  margin: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.advanced-pie-chart {
+  line-height: 32px
+}
+
+.tooltip-template {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+}
+
+.tooltip-template .title{
+  font-weight: bold;
+}

@@ -1,0 +1,29 @@
+.container {
+  margin: 16px;
+}
+
+.bill-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 8px;
+}
+
+.bill-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: 8px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .bill-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

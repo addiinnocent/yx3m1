@@ -1,0 +1,53 @@
+<div class="mat-elevation-z6">
+  <mat-toolbar class="top-flex">
+    <mat-form-field appearance="standard" class="filter-input full-width">
+      <mat-label i18n>Search</mat-label>
+      <input matInput #input (keyup)="applyFilter($event)">
+    </mat-form-field>
+    <button mat-fab color="primary">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-fab [matMenuTriggerFor]="menu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <input type="file" name="image" accept=".csv" class="file-upload"  #import (change)="uploadCsv(import)">
+      <button mat-menu-item (click)="import.click()" i18n>Import CSV</button>
+      <button mat-menu-item (click)="downloadCsv()" i18n>Export CSV</button>
+      <button mat-menu-item (click)="dumpCollection()" i18n>Dump Collection</button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <table mat-table class="full-width-table" matSort matSortActive="_id" matSortDirection="desc">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Name</th>
+      <td mat-cell *matCellDef="let row">{{row.firstname+' '+row.lastname}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Email</th>
+      <td mat-cell *matCellDef="let row">{{row.email}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="adress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Adress</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="customer-adress">
+          <span>{{row.street}}</span>
+          <span>{{row.zip}} {{row.town}}</span>
+          <span>{{row.country}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)"></tr>
+  </table>
+
+  <mat-paginator #paginator
+      [length]="dataSource.length"
+      [pageSizeOptions]="[10, 20, 50, 999]"
+      aria-label="Select page">
+  </mat-paginator>
+</div>

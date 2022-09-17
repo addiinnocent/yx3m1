@@ -1,0 +1,38 @@
+.container {
+  margin: 16px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+.dashboard-card.small {
+  width: auto;
+}
+
+.dashboard-card.tall {
+  grid-row: span 2;
+  min-width: 250px;
+}
+
+.dashboard-card.wide {
+  grid-column: span 2;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-card.wide {
+    grid-column: span 1;
+  }
+}

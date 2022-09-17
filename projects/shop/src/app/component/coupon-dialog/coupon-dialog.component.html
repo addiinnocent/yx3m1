@@ -1,0 +1,23 @@
+<div mat-dialog-title>
+  <h1>Coupon einlösen</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content class="container">
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Gib deinen Coupon Code hier ein</mat-label>
+      <input matInput placeholder="Code" [formControl]="coupon" required>
+    </mat-form-field>
+
+    <div class="coupon-buttons">
+      <button mat-raised-button color="primary" type="submit">
+        Einlösen
+      </button>
+    </div>
+  </form>
+</div>
