@@ -49,6 +49,7 @@ export class SettingsComponent implements OnInit {
   });
 
   schedules: FormGroup = new FormGroup({
+    schedule_email: new FormControl(''),
     schedule_daily: new FormControl(false),
     schedule_weekly: new FormControl(false),
     schedule_monthly: new FormControl(false),

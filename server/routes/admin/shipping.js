@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const csvtojson = require('csvtojson');
 const { parseAsync } = require('json2csv');
-
-const fields = ['_id', 'name', 'price', 'weight', 'width', 'height', 'length', 'size', 'destinations']
-const opts = { fields };
-
 const { Shippings } = require('../../database/shipping');
+
+const fields = Object.keys(Shippings.schema.tree);
+const opts = { fields };
 
 router.get('/csv', async ({ query }, res) => {
   try {

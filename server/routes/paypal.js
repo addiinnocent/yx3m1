@@ -17,6 +17,8 @@ router.get('/create-paypal-transaction', async (req, res) => {
     let shoppingcart = await Shoppingcarts.findOne({
       customer: req.session.customer,
     }).sort({_id: -1})
+    
+    if (shoppingcart.get('total') <= 0) return res.sendStatus(402);
 
     // 3. Call PayPal to set up a transaction
     request.requestBody({

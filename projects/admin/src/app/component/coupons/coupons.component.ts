@@ -85,4 +85,13 @@ export class CouponsComponent implements AfterViewInit {
       })
     }
   }
+
+  dumpCollection(): void {
+    if (confirm('Are you sure?')) {
+      this.couponService.deleteAll()
+      .subscribe(() => {
+        this.dataSource.filter.next('');
+      })
+    }
+  }
 }

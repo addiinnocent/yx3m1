@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const { Logs } = require('../../database/log');
 
 router.get('/', async ({ query }, res) => {

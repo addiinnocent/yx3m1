@@ -3,10 +3,9 @@ const Schema = mongoose.Schema;
 const { Logs } = require('./log');
 
 const EmailSchema = new Schema({
-	title: {type: String, default: ''},
-	text: {type: String, default: ''},
-	from: {type: String, default: ''},
-	to: {type: Array, default: []},
+	from: {type: String},
+	to: {type: Array},
+	subject: {type: String},
 }, {
   timestamps: true
 });

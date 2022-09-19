@@ -20,7 +20,7 @@ export class MailsComponent implements AfterViewInit {
   dataSource: MailsDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['title', 'from', 'to', 'createdAt'];
+  displayedColumns = ['subject', 'from', 'to', 'createdAt'];
 
   constructor(
     private dialog: MatDialog,
@@ -79,6 +79,15 @@ export class MailsComponent implements AfterViewInit {
     reader.onload = (e) => {
       let data: string = reader.result as string;
       this.mailService.postCsv(data)
+      .subscribe(() => {
+        this.dataSource.filter.next('');
+      })
+    }
+  }
+
+  dumpCollection(): void {
+    if (confirm('Are you sure?')) {
+      this.mailService.deleteAll()
       .subscribe(() => {
         this.dataSource.filter.next('');
       })

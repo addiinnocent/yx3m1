@@ -124,14 +124,18 @@
           <mat-card-title ii8n>Schedules</mat-card-title>
           <mat-card-subtitle ii8n>Set up schedules and timers</mat-card-subtitle>
           <mat-card-content class="settings-schedules">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label ii8n>Email</mat-label>
+              <input matInput formControlName="schedule_email">
+            </mat-form-field>
             <mat-slide-toggle color="primary" formControlName="schedule_daily">
-              <span ii8n>Tagesbericht</span>
+              <span ii8n>Daily</span>
             </mat-slide-toggle>
             <mat-slide-toggle color="primary" formControlName="schedule_weekly">
-              <span ii8n>Wochenbericht</span>
+              <span ii8n>Weekly</span>
             </mat-slide-toggle>
             <mat-slide-toggle color="primary" formControlName="schedule_monthly">
-              <span ii8n>Monatsbericht</span>
+              <span ii8n>Monthly</span>
             </mat-slide-toggle>
           </mat-card-content>
         </form>

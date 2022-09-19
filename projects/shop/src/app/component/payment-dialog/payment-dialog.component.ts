@@ -29,7 +29,10 @@ export class PaymentDialogComponent implements OnInit {
     private configService: ConfigService,
   ) {
     this.configService.getPayments()
-    .subscribe(payments => this.payments = payments)
+    .subscribe(payments => {
+      this.payments = payments
+      stripeService.changeKey(payments.stripe_publickey)
+    })
   }
 
   ngOnInit(): void {
@@ -40,18 +43,16 @@ export class PaymentDialogComponent implements OnInit {
     // Check the server.js tab to see an example implementation
     this.http.post('/api/stripe.json/create-checkout-session', {})
       .pipe(
-        switchMap((session: any) => {
-          return this.stripeService.redirectToCheckout({ sessionId: session.id })
-        })
-      )
-      .subscribe(result => {
+        switchMap((session: any) => this.stripeService.redirectToCheckout({ sessionId: session.id }))
+      ).subscribe(result => {
         // If `redirectToCheckout` fails due to a browser or network
         // error, you should display the localized error message to your
         // customer using `error.message`.
         if (result.error) {
           alert(result.error.message);
         }
-      });
+      })
+
   }
 
   private initPaypal()  {

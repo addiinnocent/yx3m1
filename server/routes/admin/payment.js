@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const csvtojson = require('csvtojson');
 const { parseAsync } = require('json2csv');
+const { Payments } = require('../../database/payment');
 
-const fields = ['_id', 'id', 'status', 'type', 'amount', 'customer', 'shoppingcart', 'createdAt'];
+const fields = Object.keys(Payments.schema.tree);
 const opts = { fields };
 
-const { Payments } = require('../../database/payment');
+
 
 router.get('/graph', async ({ query }, res) => {
   try {
@@ -128,6 +129,17 @@ router.put('/:_id', async ({ params, body }, res) => {
       new: true
     })
     res.json(payment)
+  } catch(e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
+
+router.delete('/all', async ({ params }, res) => {
+  try {
+    let status = await Payments.deleteMany({});
+
+    res.json(status)
   } catch(e) {
     console.error(e);
     res.sendStatus(500);

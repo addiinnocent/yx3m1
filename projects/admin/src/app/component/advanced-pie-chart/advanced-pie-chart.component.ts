@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, Inject, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { formatCurrency } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AdvancedPieChartDataSource } from './advanced-pie-chart-datasource';
@@ -16,9 +17,23 @@ export class AdvancedPieChartComponent implements AfterViewInit {
   data: any;
   gradient: boolean = false;
 
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-  ) { }
+  ) {
+    this.range.valueChanges.subscribe((value)=> {
+      if (value.start && value.end) {
+        this.dataSource.dateRange.next({
+          startDate: value.start,
+          endDate: value.end,
+        });
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.data = this.dataSource.connect();
@@ -26,15 +41,6 @@ export class AdvancedPieChartComponent implements AfterViewInit {
       Object.assign(this, { data });
       this.changeDetectorRef.detectChanges();
     })
-  }
-
-  onDateChange(dateRangeStart: any, dateRangeEnd: any): void {
-    if (dateRangeStart.value && dateRangeEnd.value) {
-      this.dataSource.dateRange.next({
-        startDate: dateRangeStart.value,
-        endDate: dateRangeEnd.value,
-      });
-    }
   }
 
   public formatNumber(e: number): string {

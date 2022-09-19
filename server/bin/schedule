@@ -10,6 +10,35 @@ const {
 } = require('../database/shoppingcart');
 const config = require('../database/config').config;
 
+var createReport = async (start, end) => {
+  let total = 0;
+  let items = 0;
+  let categories = await Categories.find({})
+  .select('name')
+  .lean()
+
+  for (let category of categories) {
+    category.items = await ShoppingcartItems.find({
+      category: category._id,
+      sold: true,
+      updatedAt: {
+        $gte: new Date(start),
+        $lte: new Date(end)
+      }
+    }).populate('item')
+    category.total = category.items.reduce((a,b) => a+(b.quantity*b.item.price), 0);
+    items += category.items.length;
+    total += category.total;
+  }
+
+  return {
+    start: start,
+    end: end,
+    total: total,
+    items: items,
+    categories: categories,
+  }
+}
 
 var daily = cron.schedule('0 0 * * *', async () => {//daily 0 0 * * *   */60 * * * * *
   try {
@@ -62,34 +91,8 @@ var monthly = cron.schedule('0 0 1 * *', async () => {
   }
 });
 
-var createReport = async (start, end) => {
-  let total = 0;
-  let items = 0;
-  let categories = await Categories.find({})
-  .select('name')
-  .lean()
-
-  for (let category of categories) {
-    category.items = await ShoppingcartItems.find({
-      category: category._id,
-      sold: true,
-      updatedAt: {
-        $gte: new Date(start),
-        $lte: new Date(end)
-      }
-    }).populate('item')
-    category.total = category.items.reduce((a,b) => a+(b.quantity*b.item.price), 0);
-    items += category.items.length;
-    total += category.total;
-  }
-
-  return {
-    start: start,
-    end: end,
-    total: total,
-    items: items,
-    categories: categories,
-  }
-}
+daily.start();
+weekly.start();
+monthly.start();
 
 module.exports = { daily, weekly, monthly }

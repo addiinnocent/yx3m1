@@ -28,8 +28,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": ["de"],
-            "outputPath": "dist/admin",
+            "baseHref": "adminpanel",
+            "outputPath": "server/views/admin",
             "index": "projects/admin/src/index.html",
             "main": "projects/admin/src/main.ts",
             "polyfills": "projects/admin/src/polyfills.ts",
@@ -143,7 +143,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/shop",
+            "outputPath": "server/views/shop",
             "index": "projects/shop/src/index.html",
             "main": "projects/shop/src/main.ts",
             "polyfills": "projects/shop/src/polyfills.ts",

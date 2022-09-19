@@ -60,7 +60,7 @@ import { CouponDialogComponent } from './component/coupon-dialog/coupon-dialog.c
     ReactiveFormsModule,
     HttpClientModule,
     NgxPayPalModule,
-    NgxStripeModule.forRoot('pk_test_51H1xlaJnYuv8nFzxMoYtaUmKRoaDyFiXtT9yCTvpz7hsq3CrGURSbFxATOLL5hcZFWDUmqB6TAbv8uNwuFVcv0Ug00IlQUzzus'),
+    NgxStripeModule.forRoot(),
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

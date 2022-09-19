@@ -33,6 +33,7 @@ const ConfigSchema = new Schema({
 		mail_pass: {type: String},
 	},
 	schedules: {
+		schedule_email: {type: String},
 		schedule_daily: {type: Boolean},
 		schedule_weekly: {type: Boolean},
 		schedule_monthly: {type: Boolean},
@@ -81,6 +82,7 @@ const config = async () => {
 					mail_pass: process.env.MAIL_PASS,
 				},
 				schedules: {
+					schedule_email: process.env.SCHEDULE_EMAIL,
 					schedule_daily: process.env.SCHEDULE_DAILY,
 					schedule_weekly: process.env.SCHEDULE_WEEKLY,
 					schedule_monthly: process.env.SCHEDULE_WEEKLY,

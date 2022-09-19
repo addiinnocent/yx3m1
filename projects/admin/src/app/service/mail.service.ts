@@ -5,8 +5,7 @@ import { catchError, retry } from 'rxjs/operators';
 
 export interface Mail {
   _id: string,
-  name: string,
-	text: string,
+  subject: string,
 	from: string,
 	to: string[],
   createdAt: Date,
@@ -94,6 +93,13 @@ export class MailService {
 
   deleteMail(mail: Mail) {
     return this.http.delete(`${this.url}/${mail._id}`)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteAll() {
+    return this.http.delete(`${this.url}/all`)
     .pipe(
       catchError(this.handleError)
     );

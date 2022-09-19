@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-horizontal-bar-chart',
@@ -18,9 +19,23 @@ export class HorizontalBarChartComponent {
   showYAxisLabel: boolean = true;
   yAxisLabel: string = 'Payment Method';
 
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.range.valueChanges.subscribe((value)=> {
+      if (value.start && value.end) {
+        this.dataSource.dateRange.next({
+          startDate: value.start,
+          endDate: value.end,
+        });
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.data = this.dataSource.connect();
@@ -29,15 +44,6 @@ export class HorizontalBarChartComponent {
       this.changeDetectorRef.detectChanges();
     })
 
-  }
-
-  onDateChange(dateRangeStart: any, dateRangeEnd: any): void {
-    if (dateRangeStart.value && dateRangeEnd.value) {
-      this.dataSource.dateRange.next({
-        startDate: dateRangeStart.value,
-        endDate: dateRangeEnd.value,
-      });
-    }
   }
 
 }

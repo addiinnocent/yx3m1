@@ -7,7 +7,8 @@ const path = require('path');
 const { promises: fs } = require('fs');
 
 const config = require('../database/config').config;
-const { URL } = process.env;
+const { Emails } = require('../database/email');
+const { URL, NODE_ENV } = process.env;
 const options = {
   day: 'numeric',
   month: 'short',
@@ -17,7 +18,16 @@ const options = {
 };
 
 handlebars.registerHelper('dateFormat', (timestamp) => {
-  return new Date(timestamp).toLocaleDateString('de-DE', options)+' Uhr';
+  return new Date(timestamp).toLocaleDateString('de-DE', options);
+});
+
+handlebars.registerHelper('currencyFormat', (value) => {
+  return value.toFixed(2)+' €';
+});
+
+handlebars.registerHelper('couponTypeDiscount', (value) => {
+  if (value == 'discount') return true;
+  return false;
 });
 
 var smtpTransport = (mail) => {
@@ -50,7 +60,8 @@ var newsletterEmail = (title, text, to) => {
     }
     if (mail.sendmail == true) {
       let transporter = smtpTransport(mail);
-			let status = await transporter.sendMail(email)
+			let status = await transporter.sendMail(email);
+      await Emails.create(email);
 
 			resolve(status);
 		} else reject({
@@ -59,23 +70,42 @@ var newsletterEmail = (title, text, to) => {
 	})
 }
 
-var orderEmail = async (Users, msg) => {
+var orderEmail = async (shoppingcart) => {
+  return new Promise(async (resolve, reject) => {
+    let { mail } = await config();
+		let filepath = path.join(__dirname, '..', 'emails', 'order.html');
+  	let file = await fs.readFile(filepath, 'utf8');
+    let template = await handlebars.compile(file);
+    let email = {
+      from: mail.mail_from,
+      to: shoppingcart.get('customer').email,
+      subject: 'Bestellbestätigung',
+      html: template({
+        url: URL,
+        order: shoppingcart.toObject(),
+      })
+    }
+    if (mail.sendmail == true) {
+      let transporter = smtpTransport(mail);
+			let status = await transporter.sendMail(email);
+      await Emails.create(email);
 
-}
-
-var validationEmail = async() => {
-
+			resolve(status);
+		} else reject({
+      error:'Sendmail is turned off'
+    });
+	})
 }
 
 var reportEmail = async(report, title) => {
   return new Promise(async (resolve, reject) => {
-    let { mail } = await config();
+    let { mail, schedule } = await config();
 		let filepath = path.join(__dirname, '..', 'emails', 'report.html');
   	let file = await fs.readFile(filepath, 'utf8');
     let template = await handlebars.compile(file);
     let email = {
       from: mail.mail_from,
-      to: 'yannik@yx3m1.com', //mail.private
+      to: schedule.schedule_email,
       subject: title,
       html: template({
         url: URL,
@@ -86,6 +116,7 @@ var reportEmail = async(report, title) => {
     if (mail.sendmail == true) {
       let transporter = smtpTransport(mail);
 			let status = await transporter.sendMail(email);
+      await Emails.create(email);
 
 			resolve(status);
 		} else reject({
@@ -97,6 +128,5 @@ var reportEmail = async(report, title) => {
 module.exports = {
 	newsletterEmail,
 	orderEmail,
-	validationEmail,
   reportEmail,
 };

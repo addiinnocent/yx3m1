@@ -2,7 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-
 const { Images } = require('../../database/image');
 const { Logs } = require('../../database/log');
 
@@ -81,7 +80,7 @@ router.post('/:_id', upload.single('image'), async ({ params, file }, res) => {
     }, {
       new: true
     })
-    
+
     res.json(image)
   } catch(e) {
     console.error(e);

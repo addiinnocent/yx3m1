@@ -2,13 +2,64 @@ var express = require('express');
 var router = express.Router();
 const stripeSdk = require('stripe');
 
-const { CURRENCY } = process.env;
+const { URL, CURRENCY } = process.env;
 const config = require('../database/config').config;
 const { Customers } = require('../database/customer');
 const { Payments } = require('../database/payment');
 const { Shoppingcarts, ShoppingcartItems } = require('../database/shoppingcart');
 
-var URL = 'http://localhost:4201';
+var formatItems = (items) => {
+  let result = [];
+  for (let item of items) {
+    result.push({
+      price_data: {
+        currency: CURRENCY,
+        product_data: {
+          name: item.item.name,
+          metadata: {
+            id: item.item._id,
+          }
+        },
+        unit_amount: Math.round(item.item.price*100),
+      },
+      quantity: item.quantity,
+    });
+  }
+  return result;
+}
+
+var formatShipping = (shipping) => {
+  if (!shipping) return [];
+  return [{
+    shipping_rate_data: {
+      type: 'fixed_amount',
+      fixed_amount: {
+        amount: shipping.get('price')*100,
+        currency: CURRENCY,
+      },
+      display_name: shipping.get('name'),
+    }
+  }];
+}
+
+var createCoupon = async (stripe, coupon) => {
+  let result = {};
+  if (coupon) {
+    if (coupon.type == 'discount') {
+      result = await stripe.coupons.create({
+        name: coupon.name,
+        amount_off: coupon.value*100,
+        currency: CURRENCY,
+      });
+    } else if (coupon.type == 'percent') {
+      result = await stripe.coupons.create({
+        name: coupon.name,
+        percent_off: coupon.value,
+      });
+    }
+  }
+  return result;
+}
 
 router.post('/create-checkout-session', async (req, res) => {
   try {
@@ -27,7 +78,9 @@ router.post('/create-checkout-session', async (req, res) => {
         path: 'item',
       }
     })
-    let coupon = await getCoupon(shoppingcart.get('coupon'));
+
+    if (shoppingcart.get('total') <= 0) return res.sendStatus(402);
+    let coupon = await createCoupon(Stripe, shoppingcart.get('coupon'));
 
     const session = await Stripe.checkout.sessions.create({
       payment_method_types: stripe.stripe_methods,
@@ -87,58 +140,5 @@ router.get('/success', async (req, res) => {
 router.get('/cancel', async (req, res) => {
   res.redirect('/summary');
 });
-
-var formatItems = (items) => {
-  let result = [];
-  for (let item of items) {
-    result.push({
-      price_data: {
-        currency: CURRENCY,
-        product_data: {
-          name: item.item.name,
-          metadata: {
-            id: item.item._id,
-          }
-        },
-        unit_amount: Math.round(item.item.price*100),
-      },
-      quantity: item.quantity,
-    });
-  }
-  return result;
-}
-
-var formatShipping = (shipping) => {
-  if (!shipping) return [];
-  return [{
-    shipping_rate_data: {
-      type: 'fixed_amount',
-      fixed_amount: {
-        amount: shipping.get('price')*100,
-        currency: CURRENCY,
-      },
-      display_name: shipping.get('name'),
-    }
-  }];
-}
-
-var getCoupon = async (coupon) => {
-  let result = {};
-  if (coupon) {
-    if (coupon.type == 'discount') {
-      result = await stripe.coupons.create({
-        name: coupon.value,
-        amount_off: coupon.value*100,
-        currency: CURRENCY,
-      });
-    } else if (coupon.type == 'percent') {
-      result = await stripe.coupons.create({
-        name: coupon.value,
-        percent_off: coupon.value,
-      });
-    }
-  }
-  return result;
-}
 
 module.exports = router;

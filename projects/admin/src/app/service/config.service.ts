@@ -32,6 +32,7 @@ export interface Config {
 		mail_pass: string,
 	},
   schedules: {
+    schedule_email: string,
     schedule_daily: boolean,
     schedule_weekly: boolean,
     schedule_monthly: boolean,

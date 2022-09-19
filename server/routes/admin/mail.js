@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const csvtojson = require('csvtojson');
 const { parseAsync } = require('json2csv');
-
-const fields = ['_id', 'title', 'text', 'from', 'to'];
-const opts = { fields };
-
 const { Emails } = require('../../database/email');
 const { newsletterEmail } = require('../../bin/email');
+
+const fields = Object.keys(Emails.schema.tree);
+const opts = { fields };
 
 router.get('/csv', async ({ query }, res) => {
   try {
@@ -95,6 +94,17 @@ router.post('/', async ({ body }, res) => {
     })
 
     res.json(entry);
+  } catch(e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
+
+router.delete('/all', async ({ params }, res) => {
+  try {
+    let status = await Emails.deleteMany({})
+
+    res.json(status)
   } catch(e) {
     console.error(e);
     res.sendStatus(500);

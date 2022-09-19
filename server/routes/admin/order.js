@@ -2,11 +2,10 @@ var express = require('express');
 var router = express.Router();
 const csvtojson = require('csvtojson');
 const { parseAsync } = require('json2csv');
-
-const fields = ['_id', 'paid', 'subtotal', 'finished', 'customername', 'paymentid', 'additional', 'items', 'customer', 'payment', 'shipping', 'coupon', 'createdAt'];
-const opts = { fields, includeEmptyRows: false };
-
 const { Shoppingcarts } = require('../../database/shoppingcart');
+
+const fields = Object.keys(Shoppingcarts.schema.tree);
+const opts = { fields, includeEmptyRows: false };
 
 router.get('/graph', async ({ query }, res) => {
   try {

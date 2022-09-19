@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const csvtojson = require('csvtojson');
 const { parseAsync } = require('json2csv');
-
-const fields = ['_id', 'name', 'description', 'category', 'images', 'tags', 'price', 'storage'];
-const opts = { fields };
-
 const { Items } = require('../../database/item');
 const { Logs } = require('../../database/log');
 const { ShoppingcartItems } = require('../../database/shoppingcart');
+
+const fields = Object.keys(Items.schema.tree);
+const opts = { fields };
+
+
 
 router.get('/graph', async ({ query }, res) => {
   try {

@@ -101,6 +101,13 @@ export class CouponService {
     );
   }
 
+  deleteAll() {
+    return this.http.delete(`${this.url}/all`)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

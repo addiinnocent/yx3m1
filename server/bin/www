@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('yx3m1:server');
 var http = require('http');
-var { daily, weekly, monthly } = require('./schedule');
+var schedule = require('./schedule');
 
 /**
  * Get port from environment and store in Express.
@@ -31,10 +31,6 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-daily.start();
-weekly.start();
-monthly.start();
 
 /**
  * Normalize a port into a number, string, or false.

@@ -17,6 +17,7 @@
       <input type="file" name="image" accept=".csv" class="file-upload"  #import (change)="uploadCsv(import)">
       <button mat-menu-item (click)="import.click()" i18n>Import CSV</button>
       <button mat-menu-item (click)="downloadCsv()" i18n>Export CSV</button>
+      <button mat-menu-item (click)="dumpCollection()" i18n>Dump Collection</button>
     </mat-menu>
   </mat-toolbar>
 

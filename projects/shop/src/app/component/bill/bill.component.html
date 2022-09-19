@@ -5,7 +5,7 @@
     <ng-container *ngIf="order | async; let order">
       <app-adress-small [customer]="order.customer"></app-adress-small>
       <app-shoppingcart-small [shoppingcart]="order"></app-shoppingcart-small>
-      <mat-card>
+      <mat-card *ngIf="order.payment">
         <mat-card-title>Bezahlung</mat-card-title>
         <mat-card-content class="payment-grid">
           <span>Zahlung: </span><span>{{order.payment.type | titlecase}}</span>

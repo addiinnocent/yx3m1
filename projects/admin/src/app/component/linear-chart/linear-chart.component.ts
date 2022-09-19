@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -21,9 +22,23 @@ export class LinearChartComponent {
   showXAxisLabel: boolean = false;
   timeline: boolean = false;
 
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
   ) {
+    this.range.valueChanges.subscribe((value)=> {
+      if (value.start && value.end) {
+        this.dataSource.dateRange.next({
+          startDate: value.start,
+          endDate: value.end,
+        });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -48,19 +63,6 @@ export class LinearChartComponent {
       arr.push(new Date(dt));
     }
     return arr;
-  }
-
-  onDateChange(dateRangeStart: any, dateRangeEnd: any): void {
-    if (dateRangeStart.value && dateRangeEnd.value) {
-      this.xAxisTicks = this.getDays(
-        dateRangeStart.value,
-        dateRangeEnd.value,
-      );
-      this.dataSource.dateRange.next({
-        startDate: dateRangeStart.value,
-        endDate: dateRangeEnd.value,
-      });
-    }
   }
 
   formatDate(e: number): string {

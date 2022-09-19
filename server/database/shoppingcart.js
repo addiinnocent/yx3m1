@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { Logs } = require('./log');
 const { Shippings } = require('./shipping');
+const { orderEmail } = require('../bin/email');
 
 const ShoppingcartItemSchema = new Schema({
   name: {type: String, default: ''},
@@ -29,7 +30,6 @@ ShoppingcartItemSchema.pre('save', async function(next) {
   if (this.isNew) {
     await this.populate('item');
     this.set('total', this.get('quantity')*this.get('item').price);
-    console.log(this.get('total'));
   }
   next();
 });
@@ -72,15 +72,23 @@ ShoppingcartSchema.pre('save', async function(next) {
   if (this.isModified('paid')) {
     await this.populate('items customer payment shipping coupon');
     let customer = this.get('customer');
+    let coupon = this.get('coupon');
     this.set('amount', this.get('items').length);
     this.set('customername', customer.get('firstname')+' '+customer.get('lastname'));
+
     for (let item of this.get('items')) {
       item.set('customername', this.get('customername'));
       item.set('sold', true);
       await item.save();
     }
 
+    if (coupon) {
+      coupon.set('uses', coupon.get('uses')+1);
+      await coupon.save();
+    }
+
     await customer.set('firstOrder', Date.now()).save();
+    await orderEmail(this);
     await Logs.create({
       title: 'New Order',
       text: 'New order from '+this.get('customername'),

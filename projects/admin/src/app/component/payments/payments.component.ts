@@ -77,4 +77,13 @@ export class PaymentsComponent implements AfterViewInit {
       })
     }
   }
+
+  dumpCollection(): void {
+    if (confirm('Are you sure?')) {
+      this.paymentService.deleteAll()
+      .subscribe(() => {
+        this.dataSource.filter.next('');
+      })
+    }
+  }
 }

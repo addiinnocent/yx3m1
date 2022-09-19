@@ -1,0 +1,104 @@
+<html>
+
+<head>
+  <title>Bestellbestätigung</title>
+  <style type='text/css'>
+    body {
+      margin: 0;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background: #fff;
+      user-select: none;
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 50px;
+      border: 1px solid #607d8b;
+      border-radius: 4px;
+    }
+    img {
+      width: 100%;
+    }
+    .container {
+      padding: 16px;
+    }
+    .toolbar {
+      width: 100%;
+      height: 70px;
+      background: #607d8b;
+    }
+    .logo {
+      width: 100px;
+      padding: 16px;
+    }
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <div class="logo">
+      <img src="{{url}}/images/logo.png">
+    </div>
+  </div>
+  <div class="container">
+    <h3>Dein Einkauf war erfolgreich!</h3>
+    <p class="text-muted">Diese E-Mail dient als Beleg für deinen Ticketkauf.</p>
+    <div class="row mb-2">
+      <div class="col-6 themed-grid-col">Lieferadresse:</div>
+      <div class="col-6 themed-grid-col">
+        <div>{{order.customer.firstname}} {{order.customer.lastname}}</div>
+        <div>{{order.customer.street}}</div>
+        <div>{{order.customer.zip}}, {{order.customer.town}}</div>
+        <div>{{order.customer.country}}</div>
+      </div>
+    </div>
+    <hr>
+    <div class="col mb-2">
+    {{#each order.items}}
+      <div class="row">
+        <div>{{this.quantity}}x</div>
+        <div>{{this.name}}</div>
+        <div>{{{currencyFormat this.total}}}</div>
+      </div>
+    {{/each}}
+    </div>
+    <div class="row mb-2">
+    {{#if order.coupon}}
+      <div class="col-2 themed-grid-col"></div>
+      <div class="col-7 themed-grid-col">{{order.coupon.name}}</div>
+      {{#if (couponTypeDiscount order.coupon.type)}}
+        <div class="col-3 themed-grid-col text-end">- {{{currencyFormat order.coupon.value}}}</div>
+      {{else}}
+        <div class="col-3 themed-grid-col text-end">- {{order.coupon.value}}%</div>
+      {{/if}}
+    {{/if}}
+    </div>
+    <hr>
+    <div class="row mb-2">
+    {{#if order.shipping}}
+      <div class="col-2 themed-grid-col"></div>
+      <div class="col-7 themed-grid-col">Shipping:</div>
+      <div class="col-3 themed-grid-col text-end">{{{currencyFormat order.shipping.price}}}</div>
+    {{/if}}
+    </div>
+    <div class="row mb-2">
+      <div class="col-2 themed-grid-col"></div>
+      <div class="col-7 themed-grid-col">Gesamt:</div>
+      <div class="col-3 themed-grid-col text-end">{{{currencyFormat order.total}}}</div>
+    </div>
+    <br>
+    <p class="text-center">Ticket ID: {{order._id}}</a>
+
+  </div>
+</body>
+
+</html>
