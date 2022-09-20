@@ -9,16 +9,20 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu1="matMenu" xPosition="before">
-            <mat-selection-list #logFilter>
-              <mat-list-option color="primary" *ngFor="let filter of typesOfLogs" (click)="$event.stopPropagation()" [value]="filter" selected>
-                {{filter | titlecase}}
+            <mat-selection-list>
+              <mat-list-option
+              *ngFor="let type of typesOfLogs"
+              color="primary"
+              [selected]="type.selected"
+              (click)="selectTypeOfLog($event, type)">
+                {{type.name | titlecase}}
               </mat-list-option>
             </mat-selection-list>
           </mat-menu>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="dashboard-card-content">
-        <app-logs [filter]="logFilter"></app-logs>
+        <app-logs [dataSource]="logs"></app-logs>
       </mat-card-content>
     </mat-card>
 

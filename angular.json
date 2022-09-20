@@ -28,7 +28,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "adminpanel",
             "outputPath": "server/views/admin",
             "index": "projects/admin/src/index.html",
             "main": "projects/admin/src/main.ts",
@@ -67,7 +66,8 @@
                   "with": "projects/admin/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "adminpanel",
             },
             "development": {
               "buildOptimizer": false,
@@ -93,10 +93,6 @@
               "browserTarget": "admin:build:development",
               "proxyConfig": "projects/admin/proxy.conf.json"
             },
-            "de": {
-              "browserTarget": "admin:build:development,de",
-              "proxyConfig": "projects/admin/proxy.conf.json"
-            }
           },
           "defaultConfiguration": "development"
         },

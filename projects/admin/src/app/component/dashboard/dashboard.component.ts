@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { SalesDataSource } from '../sales/sales-datasource';
 import { CustomersDataSource } from '../customers/customers-datasource';
 
+import { LogsDataSource } from '../logs/logs-datasource';
 import { PieChartDataSource } from '../pie-chart/pie-chart-datasource';
 import { AdvancedPieChartDataSource } from '../advanced-pie-chart/advanced-pie-chart-datasource';
 import { LinearChartDataSource } from '../linear-chart/linear-chart-datasource';
@@ -21,9 +22,25 @@ import { Category, CategoryService } from '../../service/category.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  typesOfLogs: string[] = ['admin', 'login', 'email', 'order', 'image'];
-  logs: Observable<Log[]>;
+  typesOfLogs: any[] = [{
+    name: 'admin',
+    selected: true,
+  }, {
+    name: 'login',
+    selected: true,
+  }, {
+    name: 'email',
+    selected: true,
+  }, {
+    name: 'order',
+    selected: true,
+  }, {
+    name: 'image',
+    selected: true,
+  }];
+
   categories: Category[] | undefined;
+  logs!: LogsDataSource;
   sales!: AdvancedPieChartDataSource;
   items!: PieChartDataSource;
   payments!: HorizontalBarChartDataSource;
@@ -38,7 +55,7 @@ export class DashboardComponent implements OnInit {
     private customerService: CustomerService,
     private categoryService: CategoryService,
   ) {
-    this.logs = this.logService.getLogs(this.typesOfLogs);
+    this.logs = new LogsDataSource(logService);
     this.sales = new AdvancedPieChartDataSource(saleService);
     this.items = new PieChartDataSource(itemService);
     this.payments = new HorizontalBarChartDataSource(paymentService);
@@ -46,12 +63,22 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.typesOfLogs.map((c: Category) => c.selected = true);
+    this.logs.selectFields.next(this.typesOfLogs);
+
     this.categoryService.getCategories('', 0, 100, 'order', 'asc')
     .subscribe((categories) => {
       this.categories = categories;
       this.categories.map((c: Category) => c.selected = true)
       this.items.selectFields.next(this.categories);
     });
+  }
+
+  selectTypeOfLog(event: Event, type: any): void {
+    type.selected = !type.selected;
+    this.logs.selectFields
+    .next(this.typesOfLogs!.filter((t:any) => t.selected == true));
+    event.stopPropagation();
   }
 
   selectCategory(event: Event, category: Category): void {

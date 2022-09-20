@@ -2,13 +2,15 @@ import { DataSource } from '@angular/cdk/collections';
 import { merge, Observable, BehaviorSubject, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
-export class PieChartDataSource extends DataSource<any> {
+import { Log, LogService } from '../../service/log.service';
+
+export class LogsDataSource extends DataSource<any> {
   selectFields = new BehaviorSubject<any>([]);
   private _data: any[] = [];
   private _dataStream = new BehaviorSubject<any>([]);
 
   constructor(
-    private dataService: any,
+    private logService: LogService,
   ) {
     super();
   }
@@ -19,8 +21,8 @@ export class PieChartDataSource extends DataSource<any> {
         .pipe(
           startWith({}),
           switchMap(() => {
-            this.dataService.getGraph(
-              this.selectFields.value.map((s: any) => s._id)
+            this.logService.getLogs(
+              this.selectFields.value.map((s: any) => s.name)
             ).subscribe((data: any) => {
               this._data = data;
               this._dataStream.next(this._data);
@@ -29,7 +31,7 @@ export class PieChartDataSource extends DataSource<any> {
           })
         )
     } else {
-      throw Error('Please set a category');
+      throw Error('Please set a type');
     }
   }
 

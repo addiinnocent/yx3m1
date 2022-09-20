@@ -50,7 +50,7 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(express.static(path.resolve(__dirname, 'views', TEMPLATE)));
 app.use(express.static(path.resolve(__dirname, 'views', 'admin')));
 
-app.get('/adminpanel', (req, res) => {
+app.get('/adminpanel*', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin', 'index.html'));
 });
 

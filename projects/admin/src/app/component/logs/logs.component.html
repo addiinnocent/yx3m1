@@ -4,11 +4,11 @@
       <ng-container *ngFor="let log of logs">
         <mat-card>
           <div class="mat-card-header">
-            <mat-card-title>{{ log.title }}</mat-card-title>
-            <span>{{ log.createdAt | date }}</span>
+            <mat-card-title>{{log.title}}</mat-card-title>
+            <span>{{log.createdAt | date}}</span>
           </div>
           <mat-card-content>
-            <p>{{ log.text }}</p>
+            <p>{{log.text}}</p>
           </mat-card-content>
           <mat-card-actions align="end">
             <button mat-button color="accent" (click)="dismissLog(log)" i18n>Dismiss</button>

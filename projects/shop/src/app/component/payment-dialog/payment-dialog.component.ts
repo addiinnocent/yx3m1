@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
-import { switchMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
 import { StripeService } from 'ngx-stripe';
@@ -43,15 +44,12 @@ export class PaymentDialogComponent implements OnInit {
     // Check the server.js tab to see an example implementation
     this.http.post('/api/stripe.json/create-checkout-session', {})
       .pipe(
+        catchError(this.handleError),
         switchMap((session: any) => this.stripeService.redirectToCheckout({ sessionId: session.id }))
-      ).subscribe(result => {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, you should display the localized error message to your
-        // customer using `error.message`.
-        if (result.error) {
-          alert(result.error.message);
-        }
-      })
+      ).subscribe(
+        result => {},
+        err => this.error = err,
+      )
 
   }
 
@@ -82,12 +80,28 @@ export class PaymentDialogComponent implements OnInit {
       },
       onError: err => {
           console.log('OnError', err);
-        //  this.showError = true;
+          this.error = 'Der Mindestbestellwert liegt bei 0.50€';
       },
       onClick: (data, actions) => {
           console.log('onClick', data, actions);
           //this.resetStatus();
       },
     };
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Der Mindestbestellwert liegt bei 0.50€'
+    );
   }
 }
