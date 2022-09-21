@@ -13,7 +13,7 @@ yarn-error.log
 
 # Server
 /server/node_modules
-.env
+/server/.env
 *.zip
 
 # IDEs and editors
