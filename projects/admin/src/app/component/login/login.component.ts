@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { LoginService, Admin } from '../../service/login.service';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: MatDialog,
     private loginService: LoginService,
   ) { }
 
@@ -26,8 +29,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit():void {
     this.loginService.postLogin(this.form.value)
-    .subscribe(() => {
-      this.router.navigate(['dashboard']);
+    .subscribe((twofactor: boolean) => {
+      console.log(twofactor);
+      if (twofactor) {
+        this.dialog.open(LoginDialogComponent);
+      } else {
+        this.router.navigate(['dashboard']);
+      }
     }, (err) => this.error = err);
   }
 

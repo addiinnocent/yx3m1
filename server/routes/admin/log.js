@@ -4,7 +4,6 @@ const { Logs } = require('../../database/log');
 
 router.get('/', async ({ query }, res) => {
   try {
-    console.log(query);
     let logs = await Logs.find({
       checked: false,
       type: {

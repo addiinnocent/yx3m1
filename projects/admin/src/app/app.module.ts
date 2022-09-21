@@ -58,7 +58,8 @@ import { ShippingsDialogComponent } from './component/shippings-dialog/shippings
 import { CustomersDialogComponent } from './component/customers-dialog/customers-dialog.component';
 import { MailsDialogComponent } from './component/mails-dialog/mails-dialog.component';
 import { LogsComponent } from './component/logs/logs.component';
-import { LoginComponent } from './component/login/login.component';
+import { LoginComponent} from './component/login/login.component';
+import { LoginDialogComponent } from './component/login-dialog/login-dialog.component';
 import { LinearChartComponent } from './component/linear-chart/linear-chart.component';
 
 registerLocaleData(localeDe);
@@ -92,6 +93,7 @@ registerLocaleData(localeDe);
     MailsDialogComponent,
     LogsComponent,
     LoginComponent,
+    LoginDialogComponent,
     LinearChartComponent,
   ],
   imports: [

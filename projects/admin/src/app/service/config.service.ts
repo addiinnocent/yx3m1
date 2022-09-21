@@ -4,39 +4,37 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 export interface Config {
-  api: {
-		api_key: string,
-		api_version: number,
-	},
-	dashboard: {
-		maintenance: boolean,
-		useragent_protect: string,
-		admin_user: string,
-		admin_pass: string,
-	},
-	payment: {
-		currency: string,
-		stripe_methods: string[],
-		stripe_publickey: string,
-		stripe_secretkey: string,
-		paypal_client: string,
-		paypal_secret: string,
-	},
-	mail: {
-		sendmail: boolean,
-		mail_from: string,
-		mail_host: string,
-		mail_port: number,
-		mail_secure: boolean,
-		mail_user: string,
-		mail_pass: string,
-	},
-  schedules: {
-    schedule_email: string,
-    schedule_daily: boolean,
-    schedule_weekly: boolean,
-    schedule_monthly: boolean,
-  }
+  api_key: string,
+  api_version: number,
+
+  maintenance: boolean,
+  twofactor: boolean,
+  admin_user: string,
+  admin_pass: string,
+  admin_secret: string,
+  admin_qr: string,
+  useragent_protect: string,
+
+  currency: string,
+  stripe_methods: string[],
+  stripe_publickey: string,
+  stripe_secretkey: string,
+  paypal_client: string,
+  paypal_secret: string,
+
+  sendmail: boolean,
+  mail_from: string,
+  mail_host: string,
+  mail_port: number,
+  mail_secure: boolean,
+  mail_user: string,
+  mail_pass: string,
+
+  schedule_email: string,
+  schedule_daily: boolean,
+  schedule_weekly: boolean,
+  schedule_monthly: boolean,
+
   countries: string[],
 }
 

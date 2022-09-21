@@ -1,0 +1,40 @@
+<div mat-dialog-title>
+  <h1>Two Factor Authentification</h1>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-error *ngIf="error">{{error}}</mat-error>
+
+<div mat-dialog-content>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="twofactor-numbers">
+      <mat-form-field appearance="fill">
+        <input #input1 matInput maxlength="1" formControlName="1" (keyup)="(input1.value.length==1)?input2.focus():''">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input #input2 matInput maxlength="1" formControlName="2" (keyup)="(input2.value.length==1)?input3.focus():''">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input #input3 matInput maxlength="1" formControlName="3" (keyup)="(input3.value.length==1)?input4.focus():''">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input #input4 matInput maxlength="1" formControlName="4" (keyup)="(input4.value.length==1)?input5.focus():''">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input #input5 matInput maxlength="1" formControlName="5" (keyup)="(input5.value.length==1)?input6.focus():''">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input #input6 matInput maxlength="1" formControlName="6">
+      </mat-form-field>
+    </div>
+
+    <mat-dialog-actions align="end">
+      <button type="submit" color="primary" mat-button i18n>Send</button>
+    </mat-dialog-actions>
+
+  </form>
+</div>
